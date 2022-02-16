@@ -5,28 +5,26 @@
 import csv
 from typing import List, Iterable
 
-def read_portfolio(filename: str) -> List[dict]:
+def read_portfolio(lines: List[str]) -> List[dict]:
     portfolio = []
-    with open(filename) as f:
-        rows = csv.reader(f)
-        headers = next(rows)
-        for row in rows:
-            try:
-                holding = {headers[0]: row[0], headers[1]: int(row[1]), headers[2]: float(row[2])}
-                portfolio.append(holding)                
-            except ValueError:
-                print('Bad row:', row)
+    rows = iter(lines)
+    headers = next(rows)
+    for row in rows:
+        try:
+            holding = {headers[0]: row[0], headers[1]: int(row[1]), headers[2]: float(row[2])}
+            portfolio.append(holding)                
+        except ValueError:
+            print('Bad row:', row)
     return portfolio
 
-def read_prices(filename: str) -> dict:
+def read_prices(lines: List[str]) -> dict:
     prices = {}
-    with open(filename) as f:
-        rows = csv.reader(f)
-        for line_num, row in enumerate(rows, start=1):
-            try:
-                prices[row[0]] = float(row[1])
-            except IndexError:
-                print(f'Bad row at line {line_num}:', row)
+    rows = iter(lines)
+    for line_num, row in enumerate(rows, start=1):
+        try:
+            prices[row[0]] = float(row[1])
+        except IndexError:
+            print(f'Bad row at line {line_num}:', row)
     return prices
 
 
