@@ -19,20 +19,22 @@ def parse_csv(lines: List[str],
     rows    = csv.reader(lines, delimiter=delimiter)
     headers = next(rows) if has_headers else None
     select  = select if select else headers
+    # --- adapt headers to select
+    headers = [h for h in headers if h in select]
     records = []
     for i, row in enumerate(rows, 1):
         try:
             if row == []:
-                raise ValueError
+                continue
+            # --- convert row if types
+            row = [func(val) for func, val in zip(types, row)] if types else row
+            
             if has_headers:
-                record = { h: val for h, val in (zip(headers, row)) if h in select }
-                converted = { k: func(v) 
-                            for func, k, v 
-                            in zip(types, record.keys(), record.values())} if types else record
-                records.append(converted)
+                record = dict(zip(headers, row))
             else:
-                converted = [func(val) for func, val in zip(types, row)] if types else row
-                records.append(tuple(converted))
+                record = tuple(row)
+            records.append(record)
+            
         except ValueError:
             if not silence_errors:
                 print(f'Bad row: "{row}" at line {i}')
@@ -41,12 +43,12 @@ def parse_csv(lines: List[str],
                     
 
 if __name__ == "__main__":
-    lines = ['name,shares,price', 'AA,100,34.23', 'IBM,50,91.1', 'HPE,75,45.1']
-    port = parse_csv(lines, select=['name', 'shares', 'price'], types=[str,int,float])
-    print(port)
+#     lines = ['name,shares,price', 'AA,100,34.23', 'IBM,50,91.1', 'HPE,75,45.1']
+#     port = parse_csv(lines, select=['name', 'shares', 'price'], types=[str,int,float])
+#     print(port)
     
     import fileparse
     with open('Data/portfolio.csv') as lines:
-        portdicts = fileparse.parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
+        portdicts = fileparse.parse_csv(lines, select=['name', 'shares', 'price'])
     
     print('\n', portdicts)
