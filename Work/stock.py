@@ -2,7 +2,7 @@
 Created on 16.02.2022
 
 @author: ho_ksk
-__updated__='2022-02-17 12:05:34'
+__updated__='2022-02-17 13:47:27'
 
 
 Exercise 4.1/.2
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         portdicts = fileparse.parse_csv(lines, select=['name','shares','price'], types=[str,int,float])
         
     portfolio = [Stock(d['name'], d['shares'], d['price']) for d in portdicts]
-    print(sum([s.cost() for s in portfolio]))
+    print(sum([s.cost() for s in portfolio]), 'expected is: 44671.15')
     
 
     
