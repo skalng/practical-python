@@ -5,9 +5,15 @@
 import csv
 from typing import List, Iterable
 
+def read_csv_data(file: str) -> List[str]:
+    with open(file) as f:
+        lines = f.readlines()
+    return lines
+
+
 def read_portfolio(lines: List[str]) -> List[dict]:
     portfolio = []
-    rows = iter(lines)
+    rows = csv.reader(lines)
     headers = next(rows)
     for row in rows:
         try:
@@ -17,9 +23,10 @@ def read_portfolio(lines: List[str]) -> List[dict]:
             print('Bad row:', row)
     return portfolio
 
+
 def read_prices(lines: List[str]) -> dict:
     prices = {}
-    rows = iter(lines)
+    rows = csv.reader(lines)
     for line_num, row in enumerate(rows, start=1):
         try:
             prices[row[0]] = float(row[1])
@@ -30,8 +37,12 @@ def read_prices(lines: List[str]) -> dict:
 
 def print_report(report: Iterable[list]) -> None:
     '''
-    Print out the portfolio report as a table of 
-    'Name', 'Shares', 'Price', 'Change'
+    Print out the portfolio report as a table:
+              Name     Shares      Price     Change
+        ---------- ---------- ---------- ---------- 
+                AA        100       32.2     -22.98
+               IBM         50       91.1      15.18
+               CAT        150      83.44     -47.98
     '''
     headers = ('Name', 'Shares', 'Price', 'Change')
     print('%10s %10s %10s %10s'  % headers)
@@ -43,15 +54,14 @@ def print_report(report: Iterable[list]) -> None:
 def portfolio_report(portfolio_fn: str, prices_fn: str) -> None:
     '''
     Generates a portfolio report from a portfolio- and prices-file and print it 
-    out as a table e.g. 
-              Name     Shares      Price     Change
-        ---------- ---------- ---------- ---------- 
-                AA        100       32.2     -22.98
-               IBM         50       91.1      15.18
-               CAT        150      83.44     -47.98
+    out as a table using print_report
     '''
-    portfolio = read_portfolio(portfolio_fn)
-    prices    = read_prices(prices_fn)
+    portfolio_port = read_csv_data(portfolio_fn)
+    prices_port    = read_csv_data(prices_fn)
+    
+    portfolio = read_portfolio(portfolio_port)
+    prices    = read_prices(prices_port)
+    # --- Make a list of (name, shares, price, change) tuples 
     report = [(h['name'], 
                h['shares'], 
                h['price'], 

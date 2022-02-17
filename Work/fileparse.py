@@ -6,8 +6,8 @@ import csv
 from typing import List
 
 def parse_csv(lines: List[str], 
-              select=[], 
-              types=[], 
+              select=None, 
+              types=None, 
               has_headers=True, 
               delimiter=',', 
               silence_errors=True) -> List[dict]:
@@ -16,8 +16,7 @@ def parse_csv(lines: List[str],
     '''
     if select and not has_headers:
         raise RuntimeError("select argument requires column headers")
-    data    = [line.strip().split(delimiter) for line in lines]
-    rows    = iter(data)
+    rows    = csv.reader(lines, delimiter=delimiter)
     headers = next(rows) if has_headers else None
     select  = select if select else headers
     records = []
