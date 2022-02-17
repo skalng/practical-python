@@ -5,34 +5,25 @@
 import csv
 from typing import List, Iterable
 
-def read_csv_data(file: str) -> List[str]:
-    with open(file) as f:
+import fileparse
+
+
+
+def read_portfolio(filename: str) -> List[dict]:
+    with open(filename) as f:
         lines = f.readlines()
-    return lines
+        
+    portfoliodict = fileparse.parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
+        
+    return portfoliodict
 
 
-def read_portfolio(lines: List[str]) -> List[dict]:
-    portfolio = []
-    rows = csv.reader(lines)
-    headers = next(rows)
-    for row in rows:
-        try:
-            holding = {headers[0]: row[0], headers[1]: int(row[1]), headers[2]: float(row[2])}
-            portfolio.append(holding)                
-        except ValueError:
-            print('Bad row:', row)
-    return portfolio
+def read_prices(filename: str) -> dict:
+    with open(filename) as f:
+        lines = f.readlines()
+    
+    return {x[0]: x[1] for x in fileparse.parse_csv(lines, types=[str, float], has_headers=False)}
 
-
-def read_prices(lines: List[str]) -> dict:
-    prices = {}
-    rows = csv.reader(lines)
-    for line_num, row in enumerate(rows, start=1):
-        try:
-            prices[row[0]] = float(row[1])
-        except IndexError:
-            print(f'Bad row at line {line_num}:', row)
-    return prices
 
 
 def print_report(report: Iterable[list]) -> None:
@@ -56,11 +47,9 @@ def portfolio_report(portfolio_fn: str, prices_fn: str) -> None:
     Generates a portfolio report from a portfolio- and prices-file and print it 
     out as a table using print_report
     '''
-    portfolio_port = read_csv_data(portfolio_fn)
-    prices_port    = read_csv_data(prices_fn)
     
-    portfolio = read_portfolio(portfolio_port)
-    prices    = read_prices(prices_port)
+    portfolio = read_portfolio(portfolio_fn)
+    prices    = read_prices(prices_fn)
     # --- Make a list of (name, shares, price, change) tuples 
     report = [(h['name'], 
                h['shares'], 
