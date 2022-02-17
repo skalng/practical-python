@@ -19,8 +19,8 @@ def parse_csv(lines: List[str],
     rows    = csv.reader(lines, delimiter=delimiter)
     headers = next(rows) if has_headers else None
     select  = select if select else headers
-    # --- adapt headers to select
-    headers = [h for h in headers if h in select]
+    # --- adapt headers to select if headers
+    headers = [h for h in headers if h in select] if has_headers else None
     records = []
     for rowno, row in enumerate(rows, 1):
         try:
