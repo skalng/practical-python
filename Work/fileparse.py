@@ -16,7 +16,7 @@ def parse_csv(lines: List[str],
     '''
     if select and not has_headers:
         raise RuntimeError("select argument requires column headers")
-    data    = [line.split(delimiter) for line in lines]
+    data    = [line.strip().split(delimiter) for line in lines]
     rows    = iter(data)
     headers = next(rows) if has_headers else None
     select  = select if select else headers
@@ -43,8 +43,11 @@ def parse_csv(lines: List[str],
 
 if __name__ == "__main__":
     lines = ['name,shares,price', 'AA,100,34.23', 'IBM,50,91.1', 'HPE,75,45.1']
-    port = parse_csv(lines, types=[str,int,float])
+    port = parse_csv(lines, select=['name', 'shares', 'price'], types=[str,int,float])
     print(port)
     
+    import fileparse
+    with open('Data/portfolio.csv') as lines:
+        portdicts = fileparse.parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
     
-
+    print('\n', portdicts)
