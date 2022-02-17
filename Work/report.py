@@ -6,16 +6,17 @@ import csv
 from typing import List, Iterable
 
 import fileparse
+from stock import Stock
 
 
 
-def read_portfolio(filename: str) -> List[dict]:
+def read_portfolio(filename: str) -> List[Stock]:
     with open(filename) as f:
         lines = f.readlines()
         
     portfoliodict = fileparse.parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
+    return [ Stock(d['name'], d['shares'], d['price']) for d in portfoliodict]
         
-    return portfoliodict
 
 
 def read_prices(filename: str) -> dict:
@@ -51,11 +52,11 @@ def portfolio_report(portfolio_fn: str, prices_fn: str) -> None:
     portfolio = read_portfolio(portfolio_fn)
     prices    = read_prices(prices_fn)
     # --- Make a list of (name, shares, price, change) tuples 
-    report = [(h['name'], 
-               h['shares'], 
-               h['price'], 
-               round(prices[h['name']]-h['price'], 2)) 
-            for h in portfolio]
+    report = [(s.name, 
+               s.shares, 
+               s.price, 
+               round(prices[s.name]-s.price, 2)) 
+            for s in portfolio]
     print_report(report)
 
 def main():
