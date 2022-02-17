@@ -69,10 +69,17 @@ def portfolio_report(portfolio_fn: str, prices_fn: str) -> None:
             for h in portfolio]
     print_report(report)
 
-
-
-if __name__ == "__main__":
+def main():
     portfolio_fn = 'Data/portfolio.csv'
     prices_fn    = 'Data/prices.csv'
 
     portfolio_report(portfolio_fn, prices_fn)
+    
+
+if __name__ == "__main__":
+    main()
+    
+    
+    
+    
+    

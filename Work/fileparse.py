@@ -22,7 +22,7 @@ def parse_csv(lines: List[str],
     # --- adapt headers to select
     headers = [h for h in headers if h in select]
     records = []
-    for i, row in enumerate(rows, 1):
+    for rowno, row in enumerate(rows, 1):
         try:
             if row == []:
                 continue
@@ -37,15 +37,15 @@ def parse_csv(lines: List[str],
             
         except ValueError:
             if not silence_errors:
-                print(f'Bad row: "{row}" at line {i}')
+                print(f'Bad row: "{row}" at line {rowno}')
 
     return records
                     
 
 if __name__ == "__main__":
-#     lines = ['name,shares,price', 'AA,100,34.23', 'IBM,50,91.1', 'HPE,75,45.1']
-#     port = parse_csv(lines, select=['name', 'shares', 'price'], types=[str,int,float])
-#     print(port)
+    lines = ['name,shares,price', 'AA,100,34.23', 'IBM,50,91.1', 'HPE,75,45.1']
+    port = parse_csv(lines, select=['name', 'shares', 'price'], types=[str,int,float])
+    print(port)
     
     import fileparse
     with open('Data/portfolio.csv') as lines:
