@@ -26,6 +26,14 @@ def read_prices(filename: str) -> dict:
     return dict(fileparse.parse_csv(lines, types=[str, float], has_headers=False))
 
 
+def make_report_data(portfolio, prices):
+    return [(s.name, 
+               s.shares, 
+               s.price, 
+               round(prices[s.name]-s.price, 2)) 
+            for s in portfolio]
+    
+
 
 def print_report(report: Iterable[list]) -> None:
     '''
@@ -52,11 +60,8 @@ def portfolio_report(portfolio_fn: str, prices_fn: str) -> None:
     portfolio = read_portfolio(portfolio_fn)
     prices    = read_prices(prices_fn)
     # --- Make a list of (name, shares, price, change) tuples 
-    report = [(s.name, 
-               s.shares, 
-               s.price, 
-               round(prices[s.name]-s.price, 2)) 
-            for s in portfolio]
+    report = make_report_data(portfolio, prices)
+    # --- print report
     print_report(report)
 
 def main():
