@@ -2,8 +2,12 @@
 Created on 18.02.2022
 
 @author: ho_ksk
-__updated__='2022-02-18 11:48:57'
+__updated__='2022-02-18 15:34:06'
 '''
+
+from typing import List, Iterable
+
+
 
 class TableFormatter():
     '''
@@ -63,7 +67,6 @@ class HTMLTableFormatter(TableFormatter):
         
         
         
-        
 def create_formatter(name):        
     if name == 'txt':
         return TextTableFormatter()
@@ -73,7 +76,13 @@ def create_formatter(name):
         return HTMLTableFormatter()
         
         
-        
+def print_table(tabledata: List[object], 
+                headers:   List[str], 
+                formatter: TableFormatter):
+    formatter.headings(headers)
+    for row in tabledata:
+        rowdata = [getattr(row, h) for h in headers]
+        formatter.row(rowdata)
         
         
         
