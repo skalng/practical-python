@@ -23,7 +23,7 @@ def read_prices(filename: str) -> dict:
     with open(filename) as f:
         lines = f.readlines()
     
-    return {x[0]: x[1] for x in fileparse.parse_csv(lines, types=[str, float], has_headers=False)}
+    return dict(fileparse.parse_csv(lines, types=[str, float], has_headers=False))
 
 
 
