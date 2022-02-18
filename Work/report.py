@@ -7,6 +7,7 @@ from typing import List, Iterable
 
 import fileparse
 from stock import Stock
+from tableformat import create_formatter, TableFormatter, TextTableFormatter, CSVTableFormatter, HTMLTableFormatter
 
 
 
@@ -30,12 +31,12 @@ def make_report_data(portfolio, prices):
     return [(s.name, 
                s.shares, 
                s.price, 
-               round(prices[s.name]-s.price, 2)) 
+               round(prices[s.name] - s.price, 2)) 
             for s in portfolio]
     
 
 
-def print_report(report: Iterable[list]) -> None:
+def print_report(reportdata: Iterable[list], formatter: TableFormatter) -> None:
     '''
     Print out the portfolio report as a table:
               Name     Shares      Price     Change
@@ -44,14 +45,13 @@ def print_report(report: Iterable[list]) -> None:
                IBM         50       91.1      15.18
                CAT        150      83.44     -47.98
     '''
-    headers = ('Name', 'Shares', 'Price', 'Change')
-    print('%10s %10s %10s %10s'  % headers)
-    print(('-' * 10 + ' ') * len(headers))
-    for row in report:
-        print('%10s %10s %10s %10s'  % row)
+    formatter.headings(['Name', 'Shares', 'Price', 'Change'])
+    for name, shares, price, change in reportdata:
+        rowdata = [name, shares, price, change]
+        formatter.row(rowdata)
 
 
-def portfolio_report(portfolio_fn: str, prices_fn: str) -> None:
+def portfolio_report(portfolio_fn: str, prices_fn: str, fmt='txt') -> None:
     '''
     Generates a portfolio report from a portfolio- and prices-file and print it 
     out as a table using print_report
@@ -62,7 +62,8 @@ def portfolio_report(portfolio_fn: str, prices_fn: str) -> None:
     # --- Make a list of (name, shares, price, change) tuples 
     report = make_report_data(portfolio, prices)
     # --- print report
-    print_report(report)
+    formatter = create_formatter(fmt)
+    print_report(report, formatter)
 
 def main():
     portfolio_fn = 'Data/portfolio.csv'
