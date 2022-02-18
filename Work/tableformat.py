@@ -2,7 +2,7 @@
 Created on 18.02.2022
 
 @author: ho_ksk
-__updated__='2022-02-18 15:34:06'
+__updated__='2022-02-18 15:46:23'
 '''
 
 from typing import List, Iterable
@@ -64,16 +64,21 @@ class HTMLTableFormatter(TableFormatter):
         for d in rowdata:
             print(f'<td>{d}</td>', end='')
         print('</tr>')
-        
+
+class FormatError(Exception):
+    pass
         
         
 def create_formatter(name):        
     if name == 'txt':
         return TextTableFormatter()
-    if name == 'csv':
+    elif name == 'csv':
         return CSVTableFormatter()
-    if name == 'html':
+    elif name == 'html':
         return HTMLTableFormatter()
+    else:
+        raise FormatError(f'Table format "{name}" not supported')
+    
         
         
 def print_table(tabledata: List[object], 
