@@ -7,8 +7,8 @@ from typing import List, Iterable
 
 import fileparse
 from stock import Stock
-from tableformat import create_formatter, TableFormatter, TextTableFormatter, CSVTableFormatter, HTMLTableFormatter
-
+from tableformat import TableFormatter, create_formatter
+from portfolio import Portfolio
 
 
 def read_portfolio(filename: str) -> List[Stock]:
@@ -16,7 +16,8 @@ def read_portfolio(filename: str) -> List[Stock]:
         lines = f.readlines()
         
     portfoliodict = fileparse.parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
-    return [ Stock(d['name'], d['shares'], d['price']) for d in portfoliodict]
+    portfolio = [ Stock(d['name'], d['shares'], d['price']) for d in portfoliodict]
+    return Portfolio(portfolio)
         
 
 
