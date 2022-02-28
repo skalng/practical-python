@@ -2,7 +2,7 @@
 Created on 26.02.2022
 
 @author: ho_ksk
-__updated__='2022-02-26 11:30:34'
+__updated__='2022-02-27 17:04:21'
 '''
 
 # portfolio.py
@@ -17,6 +17,16 @@ class Portfolio:
         
     def __iter__(self):
         return self._hloldings.__iter__()
+    
+    def __len__(self):
+        return len(self._hloldings)
+    
+    def __getitem__(self, index):
+        return self._hloldings[index]
+    
+    def  __contains__(self, name):
+        return any([h.name == name for h in self._hloldings])
+    
         
     @property
     def total_cost(self) -> float:
