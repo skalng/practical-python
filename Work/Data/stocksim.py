@@ -22,9 +22,9 @@ def minutes(tm):
     hour = int(fields[0])
     minute = int(fields[1])
     if hour == 12:
-       hour = 0
+        hour = 0
     if am_pm == 'pm':
-       hour += 12
+        hour += 12
     return hour*60 + minute
 
 # Convert time in minutes to a format string
@@ -132,6 +132,7 @@ class MarketSimulator(object):
     def publish(self,record):
         for obj in self.observers:
             obj.update(record)
+            
     def add_history(self,filename):
         hist = read_history(filename)
         for record in hist:
