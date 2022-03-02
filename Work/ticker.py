@@ -2,7 +2,7 @@
 Created on 02.03.2022
 
 @author: ho_ksk
-__updated__='2022-03-02 14:37:57'
+__updated__='2022-03-02 14:45:00'
 '''
 
 # ticker.py - Exercise 6.10
@@ -36,14 +36,6 @@ def parse_stock_data(lines):
     return rows
 
 
-
-    
-    
-    
-    
-    
-    
-    
 
 if __name__ == '__main__':
     lines = follow('Data/stocklog.csv')
