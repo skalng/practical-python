@@ -10,7 +10,7 @@ def parse_csv(lines: List[str],
               types=None, 
               has_headers=True, 
               delimiter=',', 
-              silence_errors=True) -> List[dict]:
+              silence_errors=False) -> List[dict]:
     '''
     Parse a CSV file into a list of records
     '''
