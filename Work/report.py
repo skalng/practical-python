@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 2.4
+# Exercise 2.4 / 7.3
 
 import csv
 from typing import List, Iterable
@@ -11,12 +11,15 @@ from tableformat import TableFormatter, create_formatter
 from portfolio import Portfolio
 
 
-def read_portfolio(filename: str) -> List[Stock]:
+def read_portfolio(filename: str, **opts) -> List[Stock]:
     with open(filename) as f:
         lines = f.readlines()
         
-    portfoliodict = fileparse.parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
-    portfolio = [ Stock(d['name'], d['shares'], d['price']) for d in portfoliodict]
+    portfoliodict = fileparse.parse_csv(lines, 
+                                        select=['name', 'shares', 'price'], 
+                                        types=[str, int, float],
+                                        **opts)
+    portfolio = [ Stock(**d) for d in portfoliodict]
     return Portfolio(portfolio)
         
 
@@ -67,7 +70,7 @@ def portfolio_report(portfolio_fn: str, prices_fn: str, fmt='txt') -> None:
     print_report(report, formatter)
 
 def main():
-    portfolio_fn = 'Data/portfolio.csv'
+    portfolio_fn = 'Data/missing.csv'
     prices_fn    = 'Data/prices.csv'
 
     portfolio_report(portfolio_fn, prices_fn)
