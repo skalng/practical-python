@@ -11,7 +11,7 @@ from tableformat import TableFormatter, create_formatter
 from portfolio import Portfolio
 
 
-def read_portfolio(filename: str, **opts) -> List[Stock]:
+def read_portfolio(filename: str, **opts) -> Portfolio:
     with open(filename) as f:
         lines = f.readlines()
         
