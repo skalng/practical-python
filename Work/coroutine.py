@@ -2,10 +2,10 @@
 Created on 03.03.2022
 
 @author: ho_ksk
-__updated__='2022-03-03 09:05:29'
+__updated__='2022-03-17 22:35:38'
 '''
-
-# coroutine.py
+''' from http://www.dabeaz.com/coroutines/ '''
+# coroutine.py  
 #
 # A decorator function that takes care of starting a coroutine
 # automatically on call.
