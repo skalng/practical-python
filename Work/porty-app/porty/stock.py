@@ -2,13 +2,13 @@
 Created on 16.02.2022
 
 @author: ho_ksk
-__updated__='2022-03-05 10:10:16'
+__updated__='2022-03-17 17:42:52'
 
 
 Exercise 4.1 / 4.2 / 5.8 / 7.9 
 '''
 from os import name
-from typedproperty import String, Integer, Float
+from .typedproperty import String, Integer, Float
 
 class Stock(object):
     __slotts__ = ('name', 'shares', 'price')            ## restrict the set of attributes
@@ -39,7 +39,7 @@ class Stock(object):
 if __name__ == '__main__':
     from porty import fileparse
     
-    with open('Data/portfolio.csv') as lines:
+    with open('../Data/portfolio.csv') as lines:
         portdicts = fileparse.parse_csv(lines, select=['name','shares','price'], types=[str,int,float])
         
     portfolio = [Stock(d['name'], d['shares'], d['price']) for d in portdicts]

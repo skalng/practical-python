@@ -2,13 +2,12 @@
 #
 # Exercise 2.4 / 7.3
 
-import csv
 from typing import List, Iterable
 
-import fileparse
-from stock import Stock
-from tableformat import TableFormatter, create_formatter
-from portfolio import Portfolio
+from porty import fileparse
+from .stock import Stock
+from .tableformat import TableFormatter, create_formatter
+from .portfolio import Portfolio
 
 
 def read_portfolio(filename: str, **opts) -> Portfolio:
@@ -63,15 +62,17 @@ def portfolio_report(portfolio_fn: str, prices_fn: str, fmt='txt') -> None:
     formatter = create_formatter(fmt)
     print_report(report, formatter)
 
-def main():
-    portfolio_fn = '../Data/missing.csv'
-    prices_fn    = '../Data/prices.csv'
+def main(args):
+    
+    if len(args) != 4:
+        raise SystemExit('Usage: %s portfile pricefile format' % args[0])
 
-    portfolio_report(portfolio_fn, prices_fn)
+    portfolio_report(args[1], args[2], args[3])
     
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv)
     
     
     

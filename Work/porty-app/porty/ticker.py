@@ -10,7 +10,7 @@ __updated__='2022-03-03 10:24:41'
 import csv
 
 from porty import report
-import tableformat
+from porty import tableformat
 from follow import follow
 
 portfolio = report.read_portfolio('Data/portfolio.csv')
