@@ -12,15 +12,9 @@ from portfolio import Portfolio
 
 
 def read_portfolio(filename: str, **opts) -> Portfolio:
-    with open(filename) as f:
-        lines = f.readlines()
+    with open(filename) as lines:
         
-    portfoliodict = fileparse.parse_csv(lines, 
-                                        select=['name', 'shares', 'price'], 
-                                        types=[str, int, float],
-                                        **opts)
-    portfolio = [ Stock(**d) for d in portfoliodict]
-    return Portfolio(portfolio)
+        return Portfolio.from_csv(lines)
         
 
 
@@ -70,8 +64,8 @@ def portfolio_report(portfolio_fn: str, prices_fn: str, fmt='txt') -> None:
     print_report(report, formatter)
 
 def main():
-    portfolio_fn = 'Data/missing.csv'
-    prices_fn    = 'Data/prices.csv'
+    portfolio_fn = '../Data/missing.csv'
+    prices_fn    = '../Data/prices.csv'
 
     portfolio_report(portfolio_fn, prices_fn)
     

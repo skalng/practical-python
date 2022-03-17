@@ -9,7 +9,7 @@ __updated__='2022-03-03 10:24:41'
 
 import csv
 
-import report
+from porty import report
 import tableformat
 from follow import follow
 

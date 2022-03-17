@@ -10,7 +10,7 @@ __updated__='2022-03-07 00:20:45'
 
 # Exercise 7:11
 
-import fileparse
+from porty import fileparse
 import stock
 
 class Portfolio:

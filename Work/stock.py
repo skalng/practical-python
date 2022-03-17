@@ -37,7 +37,7 @@ class Stock(object):
         
         
 if __name__ == '__main__':
-    import fileparse
+    from porty import fileparse
     
     with open('Data/portfolio.csv') as lines:
         portdicts = fileparse.parse_csv(lines, select=['name','shares','price'], types=[str,int,float])
