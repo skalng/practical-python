@@ -1,10 +1,10 @@
 '''
 Created on 17.03.2022
+setup.py
 
 @author: ho_ksk
-__updated__='2022-03-17 18:16:31'
+__updated__='2022-03-18 14:49:00'
 '''
-# setup.py
 import setuptools
 
 setuptools.setup(
